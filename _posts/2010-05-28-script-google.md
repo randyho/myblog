@@ -24,23 +24,23 @@ Ray Chow的[Google SSL油猴脚本](http://userscripts.org/scripts/show/77725)�
 在去食堂的路上想了下，大概明白了GreaseMonkey的原理，于是参考[Google Search URL Change(Cache and Tracking](http://userscripts.org/scripts/show/74154)和 Google Cached Text 自己写了个，以满足自己的需求。
 
 原理是把Google返回的搜索结果的那个Cached的链接修改了，变成 https开头，“&strip=1” 结尾，这样每次点击Cached（网页快照）就会自动跳到纯文本模式的快照了。以下是js脚本：
-    ```javascript
-    // ==UserScript==
-    // @name    Google Text Cache
-    // @description    Change Google Cache URL
-    // @include        http://www.google.com/search?*
-    // @include        https://www.google.com/search?*
+     ```javascript
+     // ==UserScript==
+     // @name    Google Text Cache
+     // @description    Change Google Cache URL
+     // @include        http://www.google.com/search?*
+     // @include        https://www.google.com/search?*
     
-    // ==/UserScript==
+     // ==/UserScript==
     
-    var cachedLinks = document.evaluate("//span[@class=\'gl\']/a[1]", document, null,
+     var cachedLinks = document.evaluate("//span[@class=\'gl\']/a[1]", document, null,
         XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-    for (var i = 0; i < cachedLinks.snapshotLength; i++)
-    {
-        cachedLinks.snapshotItem(i).removeAttribute("onmousedown");
-        cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href.replace
-            ("http://webcache.googleusercontent.com",
-            "https://webcache.googleusercontent.com");
-        cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href + "&strip=1";
-    }
-    ```
+     for (var i = 0; i < cachedLinks.snapshotLength; i++)
+     {
+         cachedLinks.snapshotItem(i).removeAttribute("onmousedown");
+         cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href.replace
+             ("http://webcache.googleusercontent.com",
+             "https://webcache.googleusercontent.com");
+         cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href + "&strip=1";
+     }
+     ```
