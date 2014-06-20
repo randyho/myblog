@@ -24,6 +24,7 @@ Ray Chow的[Google SSL油猴脚本](http://userscripts.org/scripts/show/77725)�
 在去食堂的路上想了下，大概明白了GreaseMonkey的原理，于是参考[Google Search URL Change(Cache and Tracking](http://userscripts.org/scripts/show/74154)和 Google Cached Text 自己写了个，以满足自己的需求。
 
 原理是把Google返回的搜索结果的那个Cached的链接修改了，变成 https开头，“&strip=1” 结尾，这样每次点击Cached（网页快照）就会自动跳到纯文本模式的快照了。以下是js脚本：
+
      ```javascript
      // ==UserScript==
      // @name    Google Text Cache
