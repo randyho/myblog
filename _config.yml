@@ -1,0 +1,38 @@
+# Dependencies
+markdown:         redcarpet
+redcarpet:
+  extensions: ["tables"]
+
+pygments:         true
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Randy's Blog
+tagline:          'Data Science, Hadoop, Blogging'
+url:              http://www.randyho.com
+shorturl:         randyho.com
+
+author:
+  name:           'Randy Ho'
+  url:            https://twitter.com/haoyues
+
+paginate:         1
+
+# Custom vars
+version:          1.0.0
+
+github:
+  repo:           github.com/randyho/myblog
+
+# This is the list of pages to incldue in the header of the website.
+pages_list:       
+  About: '/about/'
+  Archive: '/archive/'
+  Feed: '/atom.xml'
+
+# Allow URL Redirects: 
+#  * https://help.github.com/articles/redirects-on-github-pages
+gems:
+  - jekyll-redirect-from
