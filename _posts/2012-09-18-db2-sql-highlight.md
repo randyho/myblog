@@ -12,9 +12,9 @@ tags: Vim DB2
 
 把下面这行加到自己的vimrc
 
-```vimrc
-au BufRead,BufNewFile *.db2 set filetype=db2pl
-```
+    ```vimrc
+    au BufRead,BufNewFile *.db2 set filetype=db2pl
+    ```
 
 把下面的内容保存成db2pl.vim，放到vimfiles/syntax下就可以了。
 
