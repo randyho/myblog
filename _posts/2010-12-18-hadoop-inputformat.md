@@ -13,96 +13,96 @@ tags: Hadoop Java
 
 代码是基于hadoop 0.20的，其中的FetcherOutput是用Java的DataOutputStream写入到本地磁盘的，可以换成自己想要的格式。ConvertertRecordReader好像必须有个默认的构造器。
 
-    ```java
-    package com.randyho.hadoop.converter;
-   
-    import java.io.DataInputStream;
-    import java.io.IOException;
-   
-    import org.apache.hadoop.conf.Configuration;
-    import org.apache.hadoop.fs.FileSystem;
-    import org.apache.hadoop.fs.Path;
-    import org.apache.hadoop.io.Text;
-    import org.apache.hadoop.mapreduce.InputSplit;
-    import org.apache.hadoop.mapreduce.JobContext;
-    import org.apache.hadoop.mapreduce.RecordReader;
-    import org.apache.hadoop.mapreduce.TaskAttemptContext;
-    import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-    import org.apache.hadoop.mapreduce.lib.input.FileSplit;
-   
-    import com.randyho.FetcherOutput;
+{% highlight bash %}
+package com.randyho.hadoop.converter;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.InputSplit;
+import org.apache.hadoop.mapreduce.JobContext;
+import org.apache.hadoop.mapreduce.RecordReader;
+import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.FileSplit;
+
+import com.randyho.FetcherOutput;
     
-    public class ConverterInputFormat extends FileInputFormat<Text, FetcherOutput> {
-   
-        // Do not split files.
-        protected boolean isSplitable(JobContext context, Path file) {
-            return false;
+public class ConverterInputFormat extends FileInputFormat<Text, FetcherOutput> {
+
+    // Do not split files.
+    protected boolean isSplitable(JobContext context, Path file) {
+        return false;
+    }
+
+    public RecordReader<Text, FetcherOutput> createRecordReader(
+            InputSplit split, TaskAttemptContext context) throws IOException,
+            InterruptedException {
+        return new ConvertertRecordReader();
+    }
+
+    class ConvertertRecordReader extends RecordReader<Text, FetcherOutput> {
+       
+        private DataInputStream dis;
+        private Text key = null;
+        private FetcherOutput value;
+        private boolean more = true;
+        private Configuration conf;
+
+        public ConvertertRecordReader(){
+            key = new Text();
+            value = new FetcherOutput();
+            more = true;
         }
-   
-        public RecordReader<Text, FetcherOutput> createRecordReader(
-                InputSplit split, TaskAttemptContext context) throws IOException,
+       
+        public void close() throws IOException {
+            if (dis != null) {
+                dis.close();
+            }
+        }
+
+        public Text getCurrentKey() throws IOException, InterruptedException {
+            return key;
+        }
+
+        public FetcherOutput getCurrentValue() throws IOException,
                 InterruptedException {
-            return new ConvertertRecordReader();
+            return value;
         }
-   
-        class ConvertertRecordReader extends RecordReader<Text, FetcherOutput> {
+
+        public float getProgress() throws IOException, InterruptedException {
+            return more ? 0f : 100f;
+        }
+
+        public void initialize(InputSplit gensplit, TaskAttemptContext context)
+                throws IOException, InterruptedException {
+            FileSplit split = (FileSplit) gensplit;
+            conf = context.getConfiguration();  
+            Path file = split.getPath();
+            FileSystem fs = file.getFileSystem(conf);
            
-            private DataInputStream dis;
-            private Text key = null;
-            private FetcherOutput value;
-            private boolean more = true;
-            private Configuration conf;
-   
-            public ConvertertRecordReader(){
-                key = new Text();
-                value = new FetcherOutput();
-                more = true;
-            }
-           
-            public void close() throws IOException {
-                if (dis != null) {
-                    dis.close();
-                }
-            }
-   
-            public Text getCurrentKey() throws IOException, InterruptedException {
-                return key;
-            }
-   
-            public FetcherOutput getCurrentValue() throws IOException,
-                    InterruptedException {
-                return value;
-            }
-   
-            public float getProgress() throws IOException, InterruptedException {
-                return more ? 0f : 100f;
-            }
-   
-            public void initialize(InputSplit gensplit, TaskAttemptContext context)
-                    throws IOException, InterruptedException {
-                FileSplit split = (FileSplit) gensplit;
-                conf = context.getConfiguration();  
-                Path file = split.getPath();
-                FileSystem fs = file.getFileSystem(conf);
-               
-                System.out.println(&quot;reading: &quot; + file);
-   
-                // open the file
-                dis = fs.open(split.getPath());
-            }
-    
-            public boolean nextKeyValue() throws IOException, InterruptedException {
-                if (dis.available() != 0) {
-                    value.readFields(dis);
-                    key.set(value.getUrl());                
-                    return true;
-                } else {
-                    more = false;
-                    return false;
-                }
+            System.out.println(&quot;reading: &quot; + file);
+
+            // open the file
+            dis = fs.open(split.getPath());
+        }
+
+        public boolean nextKeyValue() throws IOException, InterruptedException {
+            if (dis.available() != 0) {
+                value.readFields(dis);
+                key.set(value.getUrl());                
+                return true;
+            } else {
+                more = false;
+                return false;
             }
         }
     }
-    ```
+}
+{% endhighlight %}
 
 本人也是新学，对hadoop也不是很熟悉，如果有更好的方式，恳请赐教。
