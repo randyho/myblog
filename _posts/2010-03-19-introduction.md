@@ -1,6 +1,6 @@
 ---
-layout: blog
-title:  "博客开通"
+layout: post
+title:  博客开通
 categories: Reading
 tags: 博客
 ---
