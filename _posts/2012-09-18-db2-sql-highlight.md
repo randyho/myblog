@@ -12,13 +12,13 @@ tags: Vim DB2
 
 把下面这行加到自己的vimrc
 
-{% highlight vimrc %}
+{% highlight vim %}
 au BufRead,BufNewFile *.db2 set filetype=db2pl
 {% endhighlight %}
 
 把下面的内容保存成db2pl.vim，放到vimfiles/syntax下就可以了。
 
-{% highlight vimrc %}
+{% highlight vim %}
 " Vim syntax file
 " Language:    db2pl (DB2 Procedures Language)
 " Maintainer:  Randy Ho <randyho AT 126.com>
