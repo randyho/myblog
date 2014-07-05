@@ -1,5 +1,5 @@
 ---
-layout: blog
+layout: post
 title:  "使用Google快照的油猴脚本"
 categories: Coding
 tags: Script Google
@@ -25,23 +25,23 @@ Ray Chow的[Google SSL油猴脚本](http://userscripts.org/scripts/show/77725)�
 
 原理是把Google返回的搜索结果的那个Cached的链接修改了，变成 https开头，“&strip=1” 结尾，这样每次点击Cached（网页快照）就会自动跳到纯文本模式的快照了。以下是js脚本：
 
-    ```javascript
-    // ==UserScript==
-    // @name    Google Text Cache
-    // @description    Change Google Cache URL
-    // @include        http://www.google.com/search?*
-    // @include        https://www.google.com/search?*
-   
-    // ==/UserScript==
-   
-    var cachedLinks = document.evaluate("//span[@class=\'gl\']/a[1]", document, null,
-       XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-    for (var i = 0; i < cachedLinks.snapshotLength; i++)
-    {
-        cachedLinks.snapshotItem(i).removeAttribute("onmousedown");
-        cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href.replace
-            ("http://webcache.googleusercontent.com",
-            "https://webcache.googleusercontent.com");
-        cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href + "&strip=1";
-    }
-    ```
+{% highlight javascript %}
+// ==UserScript==
+// @name    Google Text Cache
+// @description    Change Google Cache URL
+// @include        http://www.google.com/search?*
+// @include        https://www.google.com/search?*
+  
+// ==/UserScript==
+  
+var cachedLinks = document.evaluate("//span[@class=\'gl\']/a[1]", document, null,
+   XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
+for (var i = 0; i < cachedLinks.snapshotLength; i++)
+{
+    cachedLinks.snapshotItem(i).removeAttribute("onmousedown");
+    cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href.replace
+        ("http://webcache.googleusercontent.com",
+        "https://webcache.googleusercontent.com");
+    cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href + "&strip=1";
+}
+{% endhighlight %}
