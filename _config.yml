@@ -1,31 +1,11 @@
-# Dependencies
-markdown:         redcarpet
-redcarpet:
-  extensions: ["tables"]
+auto: true
 
-pygments:         true
+markdown: rdiscount
+pygments: true
+paginate: 8
+permalink: /:title
 
-# Setup
-title:            Randy's Blog
-tagline:          '胡言乱语'
-url:              http://www.randyho.com
-shorturl:         randyho.com
-
-author:
-  name:           'Randy Ho'
-  url:            https://twitter.com/haoyues
-
-paginate:         1
-
-# Custom vars
-version:          1.0.0
-
-github:
-  repo:           github.com/randyho/myblog
-
-# This is the list of pages to incldue in the header of the website.
-pages_list:       
-  About: '/about/'
-  Archive: '/archive/'
-  Feed: '/atom.xml'
-
+title: Randy's Blog
+url: http://www.randyho.com
+feed: /atom.xml
+author_info: <a href="http://www.randyho.com/">Randy</a>
