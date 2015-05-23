@@ -13,6 +13,10 @@ tags: Hadoop Java
 
 代码是基于hadoop 0.20的，其中的FetcherOutput是用Java的DataOutputStream写入到本地磁盘的，可以换成自己想要的格式。ConvertertRecordReader好像必须有个默认的构造器。
 
+```java
+import java.io.DataInputStream;
+```
+
 {% highlight java %}
 package com.randyho.hadoop.converter;
 
