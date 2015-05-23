@@ -8,8 +8,6 @@ tags: Script Google
 
 由于学校的教育网不让访问外网，Google快照就相当于半个代理，极大的方便了我查找资料。但是Google退出大陆后，我朝就把快照给墙了，给我的生活带来了不便。上周Google 推出 SSL 加密搜索，使用 Google 时不会出现链接重置的情况，重要的是快照可以正常查看了（因为网页快照之前就支持 SSL 加密连接了）。但是默认点击快照还是使用http协议，不想每次看快照都手动改成https，昨天在谷奥看到有网友写的脚本，就拿来用了。
 
-<!--more-->
-
 ## Google快照-普通模式
 
 Firefox 用户，请先安装[Greasemonkey](https://addons.mozilla.org/zh-CN/firefox/addon/748/)插件以驱动油猴脚本，Chrome 用户无需进行此步；然后，可以安装经过 Ray Chow 修改的[SSL Certificates Pro](http://userscripts.org/scripts/show/72944)脚本。
@@ -25,7 +23,7 @@ Ray Chow的[Google SSL油猴脚本](http://userscripts.org/scripts/show/77725)�
 
 原理是把Google返回的搜索结果的那个Cached的链接修改了，变成 https开头，“&strip=1” 结尾，这样每次点击Cached（网页快照）就会自动跳到纯文本模式的快照了。以下是js脚本：
 
-{% highlight javascript %}
+```javascript
 // ==UserScript==
 // @name    Google Text Cache
 // @description    Change Google Cache URL
@@ -44,4 +42,4 @@ for (var i = 0; i < cachedLinks.snapshotLength; i++)
         "https://webcache.googleusercontent.com");
     cachedLinks.snapshotItem(i).href = cachedLinks.snapshotItem(i).href + "&strip=1";
 }
-{% endhighlight %}
+```

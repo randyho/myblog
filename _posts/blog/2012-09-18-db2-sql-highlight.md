@@ -8,17 +8,15 @@ tags: Vim DB2
 
 最近要写存储过程，公司用的是DB2，连过程的后缀都保存成.db2，搞得vim不能正常高亮。于是自己整理了一下DB2的关键词，弄了个DB2 SQL PL的高亮文件。
 
-<!--more-->
-
 把下面这行加到自己的vimrc
 
-{% highlight vim %}
+```vim
 au BufRead,BufNewFile *.db2 set filetype=db2pl
-{% endhighlight %}
+```
 
 把下面的内容保存成db2pl.vim，放到vimfiles/syntax下就可以了。
 
-{% highlight vim %}
+```vim
 " Vim syntax file
 " Language:    db2pl (DB2 Procedures Language)
 " Maintainer:  Randy Ho <randyho AT 126.com>
@@ -176,4 +174,4 @@ if version >= 508 || !exists("did_sql_syn_inits")
 endif
 
 let b:current_syntax = "db2pl"
-{% endhighlight %}
+```

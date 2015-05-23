@@ -7,17 +7,11 @@ tags: Hadoop Java
 
 接触hadoop一年多了，但是自己一直没有用hadoop写过什么程序。最近，由于项目需要，将一些文件转换成hadoop的MapFile。网上的例子基本是直接处理文本输入，自定义输入格式的见到两个，但是都是用的旧的API，用新API写的还没有，可能高手不屑于写这些。但是处理自定义输入是每个用hadoop的人都要学会才行的，因为不是每个人的输入都是文本文件。
 
-<!--more-->
-
 数据输入是hadoop的第一步，不能读自己的数据，后面的处理就无从谈起。文本格式处理起来容易些，对于二进制格式的文件，虽然hadoop有一个SequenceFileInputFormat，可以先把自己的数据转成SequenceFile，再处理，但是这样要多一倍的处理时间、存储空间。无奈之下，参考了hadoop的源代码，自己写了个ConverterInputFormat，在这里贴出来，供大家参考。
 
 代码是基于hadoop 0.20的，其中的FetcherOutput是用Java的DataOutputStream写入到本地磁盘的，可以换成自己想要的格式。ConvertertRecordReader好像必须有个默认的构造器。
 
 ```java
-import java.io.DataInputStream;
-```
-
-{% highlight java %}
 package com.randyho.hadoop.converter;
 
 import java.io.DataInputStream;
@@ -107,6 +101,6 @@ public class ConverterInputFormat extends FileInputFormat<Text, FetcherOutput> {
         }
     }
 }
-{% endhighlight %}
+```
 
 本人也是新学，对hadoop也不是很熟悉，如果有更好的方式，恳请赐教。
